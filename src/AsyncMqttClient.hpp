@@ -10,6 +10,8 @@
 #include <freertos/semphr.h>
 #elif defined(ESP8266)
 #include <ESPAsyncTCP.h>
+#elif defined(USE_RP2040)
+#include <AsyncTCP_RP2040W.h>
 #else
 #error Platform not supported
 #endif
@@ -42,6 +44,9 @@
 #define SEMAPHORE_TAKE(X) if (xSemaphoreTake(_xSemaphore, 1000 / portTICK_PERIOD_MS) != pdTRUE) { return X; }  // Waits max 1000ms
 #define SEMAPHORE_GIVE() xSemaphoreGive(_xSemaphore);
 #elif defined(ESP8266)
+#define SEMAPHORE_TAKE(X) void()
+#define SEMAPHORE_GIVE() void()
+#elif defined(USE_RP2040)
 #define SEMAPHORE_TAKE(X) void()
 #define SEMAPHORE_GIVE() void()
 #endif
